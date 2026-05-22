@@ -10,6 +10,11 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 
+type Props = {
+  initialIndex: number;
+  onIndexChange: (index: number) => void;
+};
+
 const CLUBS = [
   {
     id: 1,
@@ -42,23 +47,14 @@ const CLUBS = [
 
 const CAROUSEL_KEY = "carousel-index";
 
-export default function ClubCarousel() {
+export default function ClubCarousel({ initialIndex, onIndexChange }: Props) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     if (!api) return;
-
-    try {
-      const saved = localStorage.getItem(CAROUSEL_KEY);
-      if (saved !== null) {
-        const index = Number(saved);
-        if (index >= 0 && index < CLUBS.length) {
-          api.scrollTo(index);
-        }
-      }
-    } catch {}
-  }, [api]);
+    api.scrollTo(initialIndex);
+  }, [api, initialIndex]);
 
   useEffect(() => {
     if (!api) return;
@@ -66,9 +62,7 @@ export default function ClubCarousel() {
     const handleSelect = () => {
       const index = api.selectedScrollSnap();
       setCurrent(index);
-      try {
-        localStorage.setItem(CAROUSEL_KEY, String(index));
-      } catch {}
+      onIndexChange(index); 
     };
 
     api.on("select", handleSelect);

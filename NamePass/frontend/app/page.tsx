@@ -3,6 +3,7 @@ import ClubCarousel from "@/components/ui/ClubCarousel";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useEffect } from "react";
 import { z } from "zod";
+import { useSession } from "@/lib/useSession";
 
 const schema = z.object({
   name: z.string().min(2, "Imię musi mieć przynajmniej 2 znaki"),
@@ -12,6 +13,7 @@ const schema = z.object({
 const STORAGE_KEY = "form-learn";
 
 export default function Page() {
+  const { initialData, save } = useSession();
   const form = useForm({
     defaultValues: {
       name: "",
@@ -22,34 +24,24 @@ export default function Page() {
     },
     listeners: {
       onChange: ({ formApi }) => {
-        try {
-          const { name, password, option } = formApi.state.values;
-          localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify({ name, password, option }),
-          );
-        } catch {}
+        const { name, password, option } = formApi.state.values;
+        save({ name, password, option, carouselIndex: 0 });
       },
     },
     onSubmit: async ({ value }) => {
       const parsed = schema.safeParse(value);
       if (!parsed.success) return;
 
-      const res = await fetch("http://localhost:3001/register", {
+      await fetch("http://localhost:3001/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(value),
       });
-
-      const data = await res.json();
-      console.log(data);
-
-      localStorage.removeItem(STORAGE_KEY);
-      form.reset();
     },
   });
 
   const selectedOption = useStore(form.store, (state) => state.values.option);
+  const extraText = useStore(form.store, (state) => state.values.extraText);
 
   useEffect(() => {
     if (selectedOption === "C") {
@@ -61,30 +53,24 @@ export default function Page() {
   }, [selectedOption]);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (!saved) return;
-      const parsed = JSON.parse(saved);
-      if (typeof parsed !== "object" || parsed === null) return;
-      form.setFieldValue(
-        "name",
-        typeof parsed.name === "string" ? parsed.name : "",
-      );
-      form.setFieldValue(
-        "password",
-        typeof parsed.password === "string" ? parsed.password : "",
-      );
-      form.setFieldValue("option", parsed.option);
-    } catch {
-      localStorage.removeItem(STORAGE_KEY);
-    }
-  }, []);
-  const extraText = useStore(form.store, (state) => state.values.extraText);
+    if (!initialData) return;
+    form.setFieldValue("name", initialData.name);
+    form.setFieldValue("password", initialData.password);
+    form.setFieldValue(
+      "option",
+      initialData.option as "A" | "B" | "C" | "D" | "",
+    );
+  }, [initialData]);
 
   useEffect(() => {
     if (selectedOption !== "D") return;
     form.setFieldValue("name", extraText);
   }, [extraText, selectedOption]);
+
+  useEffect(() => {
+    if (selectedOption !== "A") return;
+  });
+
 
   return (
     <div className="flex flex-col items-center gap-6 w-full max-w-lg">
@@ -232,7 +218,17 @@ export default function Page() {
           </button>
         </form>
       </div>
-      <ClubCarousel />
+      <ClubCarousel
+        initialIndex={initialData?.carouselIndex ?? 0}
+        onIndexChange={(index) => {
+          save({
+            name: form.state.values.name,
+            password: form.state.values.password,
+            option: form.state.values.option,
+            carouselIndex: index,
+          });
+        }}
+      />
     </div>
   );
 }
