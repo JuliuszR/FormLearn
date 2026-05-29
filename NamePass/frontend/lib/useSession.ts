@@ -12,13 +12,20 @@ export type SessionData = {
   name:          string
   password:      string
   option:        string
+  color:         string
+  extraText:     string
+  age:           number
+  birthDate:     string
+  phone:         string
+  agreed:        boolean
+  rating:        number
+  bio:           string
   carouselIndex: number
 }
 
 export function useSession() {
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [initialData, setInitialData] = useState<SessionData | null>(null)
-
 
   useEffect(() => {
     const init = async () => {
@@ -37,10 +44,17 @@ export function useSession() {
           name:          session.name,
           password:      session.password,
           option:        session.option,
+          color:         session.color,
+          extraText:     session.extraText,
+          age:           session.age,
+          birthDate:     session.birthDate,
+          phone:         session.phone,
+          agreed:        session.agreed,
+          rating:        session.rating,
+          bio:           session.bio,
           carouselIndex: session.carouselIndex,
         })
       }
-
     }
 
     init()

@@ -9,6 +9,14 @@ export async function upsertSession(data: {
   name:          string
   password:      string
   option:        string
+  color:         string
+  extraText:     string
+  age:           number
+  birthDate:     string
+  phone:         string
+  agreed:        boolean
+  rating:        number
+  bio:           string
   carouselIndex: number
 }) {
   await db
@@ -18,6 +26,14 @@ export async function upsertSession(data: {
       name:          data.name,
       password:      data.password,
       option:        data.option,
+      color:         data.color,
+      extraText:     data.extraText,
+      age:           data.age,
+      birthDate:     data.birthDate,
+      phone:         data.phone,
+      agreed:        data.agreed,
+      rating:        data.rating,
+      bio:           data.bio,
       carouselIndex: data.carouselIndex,
       updatedAt:     new Date(),
     })
@@ -27,6 +43,14 @@ export async function upsertSession(data: {
         name:          data.name,
         password:      data.password,
         option:        data.option,
+        color:         data.color,
+        extraText:     data.extraText,
+        age:           data.age,
+        birthDate:     data.birthDate,
+        phone:         data.phone,
+        agreed:        data.agreed,
+        rating:        data.rating,
+        bio:           data.bio,
         carouselIndex: data.carouselIndex,
         updatedAt:     new Date(),
       },
