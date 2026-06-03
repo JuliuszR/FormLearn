@@ -130,7 +130,8 @@ export default function Page() {
   }, [extraText, selectedOption]);
 
   return (
-    <div className="flex flex-col items-center gap-6 w-full max-w-lg">
+    <div className="flex gap-8 items-start w-full max-w-5xl">
+      <div className="flex flex-col gap-6 flex-1 min-w-0">
       <div className="form-card w-full">
         <h1 className="form-title">Utwórz konto</h1>
         <p className="form-subtitle">
@@ -655,14 +656,17 @@ export default function Page() {
           });
         }}
       />
+      </div>
 
-      <FormPreview
-        name={name}
-        age={age}
-        bio={bio}
-        rating={rating}
-        birthDate={birthDate}
-      ></FormPreview>
+      <div className="sticky top-6 w-80 shrink-0">
+        <FormPreview
+          name={name}
+          age={age}
+          bio={bio}
+          rating={rating}
+          birthDate={birthDate}
+        />
+      </div>
     </div>
   );
 }

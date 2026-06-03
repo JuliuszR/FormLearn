@@ -222,3 +222,121 @@
   transform: scale(0.985);
   box-shadow: 0 1px 4px oklch(0.46 0.2 255 / 0.3);
 }
+
+/* ── Form preview card ──────────────────────────────────────────────────── */
+
+.preview-card {
+  background: white;
+  border: 1px solid oklch(0.92 0 0);
+  border-radius: 1.25rem;
+  padding: 1.75rem 1.5rem;
+  box-shadow:
+    0 1px 3px oklch(0 0 0 / 0.06),
+    0 8px 24px oklch(0 0 0 / 0.07);
+  width: 100%;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.preview-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, oklch(0.55 0.2 255), oklch(0.65 0.18 290));
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.preview-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: oklch(0.14 0 0);
+  line-height: 1.2;
+}
+
+.preview-sub {
+  font-size: 0.75rem;
+  color: oklch(0.55 0 0);
+  margin-top: 0.15rem;
+}
+
+.preview-divider {
+  height: 1px;
+  background: oklch(0.93 0 0);
+  margin-bottom: 1.1rem;
+}
+
+.preview-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.preview-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.preview-label {
+  color: oklch(0.52 0 0);
+  font-weight: 500;
+  flex-shrink: 0;
+  padding-top: 0.05rem;
+}
+
+.preview-value {
+  color: oklch(0.2 0 0);
+  text-align: right;
+  word-break: break-word;
+}
+
+.preview-completeness {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid oklch(0.93 0 0);
+}
+
+.preview-completeness-label {
+  font-size: 0.75rem;
+  color: oklch(0.52 0 0);
+  flex-shrink: 0;
+}
+
+.preview-bar-track {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: oklch(0.93 0 0);
+  overflow: hidden;
+}
+
+.preview-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, oklch(0.55 0.2 255), oklch(0.65 0.18 290));
+  transition: width 0.4s ease;
+}
+
+.preview-completeness-pct {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: oklch(0.46 0.2 255);
+  flex-shrink: 0;
+}
